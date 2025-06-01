@@ -24,4 +24,4 @@ jobs:
           r2-bucket: ${{ secrets.RAINIER_CLOUDKID_R2_BUCKET }}
           source-dir: .
           destination-dir: ./
-          keep-file-fresh: true   # (optional; uncomment if you want R2 to mirror exactly)
+          keep-file-fresh: true
