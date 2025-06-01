@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Upload entire repo to R2
-        uses: ryand56/r2-upload-action@v1.4
+        uses: ryand56/r2-upload-action@latest
         with:
           r2-account-id: ${{ secrets.RAINIER_CLOUDKID_R2_ACCOUNT_ID }}
           r2-access-key-id: ${{ secrets.RAINIER_CLOUDKID_R2_ACCESS_KEY_ID }}
