@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  upload-to-r2:
+  deploy-to-rainier-cloudkid-link:
     runs-on: ubuntu-latest
     concurrency:
       group: deploy-to-r2-${{ github.ref }}
@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Upload entire repo to R2
+      - name: Upload to Bucket
         uses: ryand56/r2-upload-action@latest
         with:
           r2-account-id: ${{ secrets.RAINIER_CLOUDKID_R2_ACCOUNT_ID }}
