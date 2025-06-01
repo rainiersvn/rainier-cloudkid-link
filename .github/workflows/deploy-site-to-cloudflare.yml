@@ -9,6 +9,9 @@ on:
 jobs:
   upload-to-r2:
     runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-to-r2-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v3
 
@@ -21,4 +24,4 @@ jobs:
           r2-bucket: ${{ secrets.RAINIER_CLOUDKID_R2_BUCKET }}
           source-dir: .
           destination-dir: ./
-          # keep-file-fresh: true   # (optional; uncomment if you want R2 to mirror exactly)
+          keep-file-fresh: true   # (optional; uncomment if you want R2 to mirror exactly)
