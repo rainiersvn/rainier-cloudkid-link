@@ -15,10 +15,10 @@ jobs:
       - name: Upload entire repo to R2
         uses: ryand56/r2-upload-action@v1.4
         with:
-          r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
-          r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
-          r2-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          r2-bucket: ${{ secrets.R2_BUCKET }}
+          r2-account-id: ${{ secrets.RAINIER_CLOUDKID_R2_ACCOUNT_ID }}
+          r2-access-key-id: ${{ secrets.RAINIER_CLOUDKID_R2_ACCESS_KEY_ID }}
+          r2-secret-access-key: ${{ secrets.RAINIER_CLOUDKID_R2_SECRET_ACCESS_KEY }}
+          r2-bucket: ${{ env.RAINIER_CLOUDKID_R2_BUCKET }}
           source-dir: .
           destination-dir: ./
           # keep-file-fresh: true   # (optional; uncomment if you want R2 to mirror exactly)
