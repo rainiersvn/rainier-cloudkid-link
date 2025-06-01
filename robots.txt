@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /images
+Allow: /favicon
+
+Disallow: /css
+Disallow: /fonts
+Disallow: /js
+Disallow: /sass
+Disallow: /webfonts
+
+Sitemap: https://cloudkid.link/sitemap.xml
