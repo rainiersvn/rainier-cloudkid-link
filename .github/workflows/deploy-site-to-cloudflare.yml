@@ -22,6 +22,6 @@ jobs:
           r2-access-key-id: ${{ secrets.RAINIER_CLOUDKID_R2_ACCESS_KEY_ID }}
           r2-secret-access-key: ${{ secrets.RAINIER_CLOUDKID_R2_SECRET_ACCESS_KEY }}
           r2-bucket: ${{ secrets.RAINIER_CLOUDKID_R2_BUCKET }}
-          source-dir: .
+          source-dir: ./src
           destination-dir: ./
           keep-file-fresh: true
