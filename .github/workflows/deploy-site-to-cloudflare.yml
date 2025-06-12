@@ -25,4 +25,4 @@ jobs:
         run: |
           aws s3 sync ./src s3://${{ secrets.RAINIER_CLOUDKID_R2_BUCKET }} \
             --endpoint-url https://${{ secrets.RAINIER_CLOUDKID_R2_ACCOUNT_ID }}.r2.cloudflarestorage.com \
-            --delete
+            --size-only --delete
