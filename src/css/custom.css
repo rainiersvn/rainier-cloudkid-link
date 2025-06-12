@@ -1,14 +1,7 @@
-/* .cert-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
-} */
-
 .cert-container {
   display: flex;
-  flex-wrap: wrap;         /* allow items to flow onto a new line */
-  justify-content: flex-start; /* left-align each row of cards */
-  gap: 30px;               /* optional: uniform spacing between cards */
+  flex-wrap: wrap;
+  justify-content: flex-start;
   margin-bottom: 30px;
 }
 
@@ -18,6 +11,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  flex: 0 0 auto;
   align-items: center;
   border: 1px solid #eaeaea;
   border-radius: 4px;
