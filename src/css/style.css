@@ -381,12 +381,14 @@ h1, h2, h3, h4, h5, h6, figure {
   background: #6c3baa;
 }
 
-/* target only the right column in the second row (keeps the heading clean) */
+/* keep the purple line on the right column only */
 #fh5co-about .container > .row:nth-of-type(2) .col-md-8 {
   position: relative;
-  padding-left: 40px; /* room for the line */
+  padding-left: 40px;
+  padding-bottom: 8px; /* ensure small gap under text */
 }
 
+/* vertical accent line */
 #fh5co-about .container > .row:nth-of-type(2) .col-md-8::before {
   content: "";
   position: absolute;
@@ -394,14 +396,20 @@ h1, h2, h3, h4, h5, h6, figure {
   top: 8px;
   bottom: 8px;
   width: 2px;
-  background: rgba(108,59,170,0.35); /* #6c3baa at ~18% opacity */
+  background: rgba(108,59,170,0.35); /* #6c3baa */
   border-radius: 1px;
   pointer-events: none;
 }
 
+/* remove extra margin that causes the overhang */
+#fh5co-about .container > .row:nth-of-type(2) .col-md-8 p:last-child {
+  margin-bottom: 0;
+}
+
+/* mobile: hide the line and tighten padding */
 @media (max-width: 767px) {
   #fh5co-about .container > .row:nth-of-type(2) .col-md-8::before { display: none; }
-  #fh5co-about .container > .row:nth-of-type(2) .col-md-8 { padding-left: 15px; }
+  #fh5co-about .container > .row:nth-of-type(2) .col-md-8 { padding-left: 15px; padding-bottom: 6px; }
 }
 
 .fh5co-heading {
