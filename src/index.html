@@ -443,12 +443,52 @@
 					</div>
 				</div>
 				<div class="row">
+					<style>
+						/* Custom styles for work cards */
+						.fh5co-bg-dark .work {
+							position: relative;
+							display: block;
+							background-size: cover;
+							background-position: center;
+							height: 250px;
+							overflow: hidden;
+							border-radius: 8px;
+						}
+						.fh5co-bg-dark .work .desc {
+							position: absolute;
+							top: 0;
+							left: 0;
+							width: 100%;
+							height: 100%;
+							background: rgba(30,30,30,0.85);
+							color: #fff;
+							display: flex;
+							flex-direction: column;
+							justify-content: center;
+							align-items: center;
+							transition: opacity 0.3s;
+							opacity: 1;
+							z-index: 2;
+						}
+						.fh5co-bg-dark .work:hover .desc,
+						.fh5co-bg-dark .work:focus .desc {
+							opacity: 0;
+							pointer-events: none;
+						}
+					</style>
 					<div class="col-md-3 text-center col-padding animate-box">
-						<a href="https://korbanministries.co.za/" class="work" style="background-image: url(images/km-ico.png);"
-							target="_blank">
+						<a href="https://korbanministries.co.za/" class="work" style="background-image: url(images/km-ico.png);" target="_blank">
 							<div class="desc">
 								<h3>Korban Ministries</h3>
 								<span>Online Gospel Ministry</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-3 text-center col-padding animate-box">
+						<a href="https://wedding.cloudkid.link/" class="work" style="background-image: url(./wedding-bg.jpg), url(https://wedding.cloudkid.link/media/Wedding/Photos/0C4A5420.jpg);" target="_blank">
+							<div class="desc">
+								<h3>Wedding Photo Gallery</h3>
+								<span>Zevenwacht Wine Estate</span>
 							</div>
 						</a>
 					</div>
