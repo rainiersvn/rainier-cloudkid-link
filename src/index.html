@@ -72,6 +72,30 @@
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer></script>
   
   <script>
+    // Function to show the main content and hide the overlay
+    function showContent() {
+      document.getElementById('turnstile-overlay').style.display = 'none';
+      document.getElementById('page').style.display = 'block';
+    }
+    
+    // Callback when Turnstile is ready to be rendered
+    window.onloadTurnstileCallback = function () {
+      turnstile.render('#turnstile-container', {
+        sitekey: '0x4AAAAAABoU4VHaN7UMuwum',
+        callback: function(token) {
+          // When verification is successful, show the content
+          if (token) {
+            document.getElementById('turnstile-message').textContent = 'Verification successful! Loading site...';
+            // Add slight delay for better UX
+            setTimeout(showContent, 1000);
+            console.log('Turnstile verified successfully');
+          }
+        }
+      });
+    };
+  </script>
+
+  <!-- <script>
     // Function to show the main content and hide the overlay with a fade effect
     function showContent() {
       const overlay = document.getElementById('turnstile-overlay');
@@ -110,7 +134,7 @@
         }
       });
     };
-  </script>
+  </script> -->
 </head>
 
 <body>
