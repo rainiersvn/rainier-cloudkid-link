@@ -72,15 +72,40 @@
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer></script>
   
   <script>
+    // Function to show the main content and hide the overlay with a fade effect
+    function showContent() {
+      const overlay = document.getElementById('turnstile-overlay');
+      const page = document.getElementById('page');
+      
+      // Fade out the overlay
+      overlay.style.transition = 'opacity 0.8s ease';
+      overlay.style.opacity = '0';
+      
+      // Display the page content first (but still invisible)
+      page.style.opacity = '0';
+      page.style.display = 'block';
+      page.style.transition = 'opacity 0.8s ease';
+      
+      // After overlay fades out, completely hide it and fade in the content
+      setTimeout(function() {
+        overlay.style.display = 'none';
+        page.style.opacity = '1';
+      }, 800);
+    }
+    
     // Callback when Turnstile is ready to be rendered
     window.onloadTurnstileCallback = function () {
       turnstile.render('#turnstile-container', {
         sitekey: '0x4AAAAAABoU4VHaN7UMuwum',
+        theme: 'dark',
         callback: function(token) {
-          // When verification is successful, hide the container
+          // When verification is successful, show the content
           if (token) {
-            document.getElementById('turnstile-container').style.display = 'none';
-            console.log('Turnstile verified successfully and hidden');
+            document.getElementById('turnstile-message').textContent = 'Verification successful! Loading site...';
+            document.getElementById('turnstile-message').style.color = '#af9fff';
+            // Add slight delay for better UX
+            setTimeout(showContent, 1200);
+            console.log('Turnstile verified successfully');
           }
         }
       });
@@ -91,6 +116,56 @@
 <body>
 
   <style>
+    /* Turnstile overlay styles */
+    #turnstile-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(47, 60, 79, 0.97) 0%, rgba(47, 60, 79, 0.9) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      color: white;
+      font-family: "Space Mono", Arial, serif;
+      padding: 20px;
+    }
+    
+    #turnstile-overlay h2 {
+      color: #af9fff;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: 400;
+      font-size: 2em;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    #turnstile-container {
+      margin: 25px 0;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      border: 1px solid rgba(175, 159, 255, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    #turnstile-message {
+      margin-bottom: 20px;
+      font-size: 1.2em;
+      text-align: center;
+      color: #f2f0ef;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+    
+    /* Hide the main content initially */
+    #page {
+      display: none;
+    }
+    
     /* Custom styles for work cards */
     .fh5co-bg-dark .work {
       position: relative;
@@ -135,7 +210,11 @@
 
   <div class="fh5co-loader"></div>
 
-  <div id="turnstile-container"></div>
+  <div id="turnstile-overlay">
+    <h2>Welcome to my portfolio</h2>
+    <div id="turnstile-message">Please complete the verification to access my site</div>
+    <div id="turnstile-container"></div>
+  </div>
 
   <div id="page">
     <header id="fh5co-header" class="fh5co-cover js-fullheight" role="banner"
