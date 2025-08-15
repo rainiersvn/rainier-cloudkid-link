@@ -134,10 +134,15 @@
 		$(".fh5co-loader").fadeOut("slow");
 	};
 
+	var turnstile = function() {
+		$(".turnstile-container").fadeOut("slow");
+	};
+
 	
 	$(function(){
 		contentWayPoint();
 		goToTop();
+		turnstile();
 		loaderPage();
 		fullHeight();
 		parallax();

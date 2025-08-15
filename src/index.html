@@ -68,27 +68,21 @@
   <!-- Load other scripts at end of body, except small utilities if needed early -->
   <script async src="https://cdn.youracclaim.com/assets/utilities/embed.js"></script>
 
-  <!-- Load the Cloudflare Turnstile script -->
+  <!-- Load the Cloudflare Turnstile script with onload callback -->
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer></script>
   
   <script>
-    // Callback function when Turnstile is ready
+    // Callback when Turnstile is ready to be rendered
     window.onloadTurnstileCallback = function () {
-      // Set up the callback for when verification is complete
-      window.turnstileCallback = function(token) {
-        if (token) {
-          // If we got a token, verification was successful
-          // Hide the widget container after a short delay
-          setTimeout(() => {
-            document.querySelector('.cf-turnstile').style.display = 'none';
-          }, 500);
-        }
-      };
-      
-      // Render the widget with our callback
-      turnstile.render('.cf-turnstile', {
+      turnstile.render('#turnstile-container', {
         sitekey: '0x4AAAAAABoU4VHaN7UMuwum',
-        callback: 'turnstileCallback'
+        callback: function(token) {
+          // When verification is successful, hide the container
+          if (token) {
+            document.getElementById('turnstile-container').style.display = 'none';
+            console.log('Turnstile verified successfully and hidden');
+          }
+        }
       });
     };
   </script>
@@ -141,7 +135,7 @@
 
   <div class="fh5co-loader"></div>
 
-  <div class="cf-turnstile" data-size="compact"></div>
+  <div id="turnstile-container"></div>
 
   <div id="page">
     <header id="fh5co-header" class="fh5co-cover js-fullheight" role="banner"

@@ -1267,12 +1267,22 @@ input[type="text"] {
 
 .fh5co-loader {
   position: fixed;
-  left: 0;
-  top: 0;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background: url(../images/loader.gif) center no-repeat #f2f0ef;
+}
+
+.turnstile-container {
+  position: fixed;
+  left: 0px;
+  top: 0px;
   width: 100%;
   height: 100%;
   z-index: 9999;
-  background: url(../images/loader.gif) center no-repeat #f2f0ef;
+  background: url(https://cf-assets.www.cloudflare.com/dzlvafdwdttg/69wNwfiY5mFmgpd9eQFW6j/d5131c08085a977aa70f19e7aada3fa9/1pixel-down__1_.svg) center no-repeat #f2f0ef;
 }
 
 .js .animate-box {
