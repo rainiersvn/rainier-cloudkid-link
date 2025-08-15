@@ -67,6 +67,9 @@
 
   <!-- Load other scripts at end of body, except small utilities if needed early -->
   <script async src="https://cdn.youracclaim.com/assets/utilities/embed.js"></script>
+
+  <!-- Load the Cloudflare Turnstile script -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 
 <body>
@@ -115,6 +118,8 @@
   </style>
 
   <div class="fh5co-loader"></div>
+
+  <div class="cf-turnstile" data-sitekey="0x4AAAAAABoU4VHaN7UMuwum"></div>
 
   <div id="page">
     <header id="fh5co-header" class="fh5co-cover js-fullheight" role="banner"
