@@ -69,7 +69,7 @@
   <script async src="https://cdn.youracclaim.com/assets/utilities/embed.js"></script>
 
   <!-- Load the Cloudflare Turnstile script with onload callback -->
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <script>
     // Function to show the main content and hide the overlay with smooth transition
@@ -97,7 +97,7 @@
     }
 
     // Callback when Turnstile is ready to be rendered
-    window.onloadTurnstileCallback = function () {
+    window.addEventListener('DOMContentLoaded', function () {
       if (window.origin === "https://rainier.cloudkid.link") {
         turnstile.render('#turnstile-container', {
           sitekey: '0x4AAAAAABoU4VHaN7UMuwum',
@@ -111,8 +111,8 @@
             }
           }
         });
-      } 
-    };
+      }
+    });
   </script>
 </head>
 
