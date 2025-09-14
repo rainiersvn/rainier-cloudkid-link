@@ -97,7 +97,7 @@
     }
 
     // Callback when Turnstile is ready to be rendered
-    window.addEventListener('DOMContentLoaded', function () {
+    window.onloadTurnstileCallback = function () {
       if (window.origin === "https://rainier.cloudkid.link") {
         turnstile.render('#turnstile-container', {
           sitekey: '0x4AAAAAABoU4VHaN7UMuwum',
@@ -114,7 +114,7 @@
       } else {
         showContent();
       }
-    });
+    };
   </script>
 </head>
 
