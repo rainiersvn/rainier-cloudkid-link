@@ -4,15 +4,13 @@
 <head>
   <meta charset="utf-8">
   <title>Certified Cloud & DevOps Specialist</title>
-  <meta name="description"
-    content="With a love for all things Cloud & Automation, I bring extensive experience in the FinTech sector to the table. Exceeding my expertise is my fresh and honest approach to building automated software solutions.">
+  <meta name="description" content="With a love for all things Cloud & Automation, I bring extensive experience in the FinTech sector to the table. Exceeding my expertise is my fresh and honest approach to building automated software solutions.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- SEO & Sharing -->
   <link rel="canonical" href="https://cloudkid.link">
   <!-- <meta name="description" content="Rainier van Niekerk, Cloud Expert, AWS Certified"> -->
-  <meta name="keywords"
-    content="Cloud Specialist, AWS Certified, Azure Certified, DevOps Engineer, Terraform, HashiCorp Certified, Cloudkid">
+  <meta name="keywords" content="Cloud Specialist, AWS Certified, Azure Certified, DevOps Engineer, Terraform, HashiCorp Certified, Cloudkid">
   <meta name="author" content="Rainier van Niekerk">
 
   <meta property="og:title" content="Rainier van Niekerk" />
@@ -71,8 +69,7 @@
   <script async src="https://cdn.youracclaim.com/assets/utilities/embed.js"></script>
 
   <!-- Load the Cloudflare Turnstile script with onload callback -->
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async
-    defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer></script>
 
   <script>
     // Function to show the main content and hide the overlay with smooth transition
@@ -101,18 +98,20 @@
 
     // Callback when Turnstile is ready to be rendered
     window.onloadTurnstileCallback = function () {
-      turnstile.render('#turnstile-container', {
-        sitekey: '0x4AAAAAABoU4VHaN7UMuwum',
-        callback: function (token) {
-          // When verification is successful, show the content
-          if (token) {
-            document.getElementById('turnstile-message').textContent = 'Verification successful! Loading site...';
-            // Add slight delay for better UX
-            setTimeout(showContent, 1000);
-            console.log('Turnstile verified successfully');
+      if (window.origin === "https://rainier.cloudkid.link") {
+        turnstile.render('#turnstile-container', {
+          sitekey: '0x4AAAAAABoU4VHaN7UMuwum',
+          callback: function (token) {
+            // When verification is successful, show the content
+            if (token) {
+              document.getElementById('turnstile-message').textContent = 'Verification successful! Loading site...';
+              // Add slight delay for better UX
+              setTimeout(showContent, 1000);
+              console.log('Turnstile verified successfully');
+            }
           }
-        }
-      });
+        });
+      } 
     };
   </script>
 </head>
@@ -128,8 +127,7 @@
   <div id="page">
     <div class="fh5co-loader"></div>
 
-    <header id="fh5co-header" class="fh5co-cover js-fullheight" role="banner"
-      style="background-image:url(images/cover_bg_3.jpg);" data-stellar-background-ratio="0.5">
+    <header id="fh5co-header" class="fh5co-cover js-fullheight" role="banner" style="background-image:url(images/cover_bg_3.jpg);" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
         <div class="row">
@@ -479,33 +477,27 @@
 
           <!-- AWS Certified Developer – Associate -->
           <div class="col-md-3 col-sm-6 col-xs-12 text-center">
-            <div data-iframe-width="250" data-iframe-height="270"
-              data-share-badge-id="a362e869-bda3-49e5-8e1c-ca7a0aaaba07" data-share-badge-host="https://www.credly.com">
+            <div data-iframe-width="250" data-iframe-height="270" data-share-badge-id="a362e869-bda3-49e5-8e1c-ca7a0aaaba07" data-share-badge-host="https://www.credly.com">
             </div>
           </div>
 
           <!-- AWS Certified Solutions Architect – Associate -->
           <div class="col-md-3 col-sm-6 col-xs-12 text-center">
-            <div data-iframe-width="250" data-iframe-height="270"
-              data-share-badge-id="81ecee11-ec71-40db-a40a-1fe1fa679b6e" data-share-badge-host="https://www.credly.com">
+            <div data-iframe-width="250" data-iframe-height="270" data-share-badge-id="81ecee11-ec71-40db-a40a-1fe1fa679b6e" data-share-badge-host="https://www.credly.com">
             </div>
           </div>
 
           <!-- HashiCorp Certified: Terraform Associate (003) -->
           <div class="col-md-3 col-sm-6 col-xs-12 text-center">
-            <div data-iframe-width="250" data-iframe-height="270"
-              data-share-badge-id="0991661f-0e97-44e7-b34f-85cb7ccf249c" data-share-badge-host="https://www.credly.com">
+            <div data-iframe-width="250" data-iframe-height="270" data-share-badge-id="0991661f-0e97-44e7-b34f-85cb7ccf249c" data-share-badge-host="https://www.credly.com">
             </div>
           </div>
 
           <!-- Microsoft Certified: Azure Developer Associate -->
           <div class="col-md-3 col-sm-6 col-xs-12 text-center">
             <div class="cert-card">
-              <a href="https://learn.microsoft.com/api/credentials/share/en-us/RainiervanNiekerk-2216/23CDA41A406ADE34"
-                target="_blank">
-                <img
-                  src="https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-associate-badge.svg"
-                  alt="Microsoft Certified: Azure Developer Associate">
+              <a href="https://learn.microsoft.com/api/credentials/share/en-us/RainiervanNiekerk-2216/23CDA41A406ADE34" target="_blank">
+                <img src="https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-associate-badge.svg" alt="Microsoft Certified: Azure Developer Associate">
                 <p class="issuer">Azure Developer Associate</p>
               </a>
             </div>
@@ -514,11 +506,8 @@
           <!-- Microsoft Certified: Azure Administrator Associate -->
           <div class="col-md-3 col-sm-6 col-xs-12 text-center">
             <div class="cert-card">
-              <a href="https://learn.microsoft.com/api/credentials/share/en-us/RainiervanNiekerk-2216/236D28C4BC6C5223"
-                target="_blank">
-                <img
-                  src="https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-associate-badge.svg"
-                  alt="Microsoft Certified: Azure Administrator Associate">
+              <a href="https://learn.microsoft.com/api/credentials/share/en-us/RainiervanNiekerk-2216/236D28C4BC6C5223" target="_blank">
+                <img src="https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-associate-badge.svg" alt="Microsoft Certified: Azure Administrator Associate">
                 <p class="issuer">Azure Administrator Associate</p>
               </a>
             </div>
@@ -536,8 +525,7 @@
         </div>
         <div class="row">
           <div class="col-md-3 text-center col-padding animate-box">
-            <a href="https://korbanministries.co.za/" class="work" style="background-image: url(images/km-ico.png);"
-              target="_blank">
+            <a href="https://korbanministries.co.za/" class="work" style="background-image: url(images/km-ico.png);" target="_blank">
               <div class="desc">
                 <h3>Korban Ministries</h3>
                 <span>Online Gospel Ministry</span>
@@ -545,8 +533,7 @@
             </a>
           </div>
           <div class="col-md-3 text-center col-padding animate-box">
-            <a href="https://wedding.cloudkid.link/" class="work" style="background-image: url(./wedding-bg.jpg)"
-              target="_blank">
+            <a href="https://wedding.cloudkid.link/" class="work" style="background-image: url(./wedding-bg.jpg)" target="_blank">
               <div class="desc">
                 <h3>Wedding Photo Gallery</h3>
                 <span>Zevenwacht Wine Estate</span>
@@ -572,8 +559,7 @@
             <p>If you think my skill-sets could be of use to you or your organization, please consider
               hiring
               me, thanks!</p>
-            <a href="https://www.linkedin.com/in/rainier-cloudkid/" class="btn btn-default btn-lg"
-              target="_blank">LinkedIn Profile</a>
+            <a href="https://www.linkedin.com/in/rainier-cloudkid/" class="btn btn-default btn-lg" target="_blank">LinkedIn Profile</a>
           </div>
         </div>
         <div class="row animate-box">
