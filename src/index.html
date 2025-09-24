@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html lang="en-ZA">
+
 <head>
   <meta charset="utf-8">
   <title>Certified Cloud & DevOps Specialist | Rainier van Niekerk</title>
@@ -31,8 +32,6 @@
   <link rel="manifest" href="/site.webmanifest">
   <meta name="theme-color" content="#6c3baa">
   <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
-
-  <!-- Sitemap hint -->
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 
   <!-- Preconnect & DNS-prefetch -->
@@ -66,7 +65,7 @@
     <link href="css/custom.css" rel="stylesheet">
   </noscript>
 
-  <!-- Core JS (kept early if dependent scripts rely on them for layout/animations) -->
+  <!-- Core JS -->
   <script src="js/jquery.min.js"></script>
   <script src="js/jquery.waypoints.min.js"></script>
   <script src="js/jquery.easing.1.3.js"></script>
@@ -79,9 +78,6 @@
 
   <!-- Credential badges -->
   <script async src="https://cdn.youracclaim.com/assets/utilities/embed.js"></script>
-
-  <!-- Cloudflare Turnstile -->
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer></script>
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -103,37 +99,46 @@
         "jobTitle": "Cloud & DevOps Specialist",
         "sameAs": [
           "https://github.com/rainiersvn",
-            "https://www.linkedin.com/in/rainier-cloudkid/"
+          "https://www.linkedin.com/in/rainier-cloudkid/"
         ]
       }
     ]
   }
   </script>
 
-  <!-- TURNSTILE OVERLAY & LOGIC -->
   <style>
-    /* Ensure page always renders. */
     #page {
-      display: block !important;
-      opacity: 1 !important;
+      display: block;
+      opacity: 1;
     }
+
     #turnstile-overlay {
       position: fixed;
       inset: 0;
       background: #0d0d10f2;
+      backdrop-filter: blur(4px);
       color: #fff;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      z-index: 9999;
       text-align: center;
+      z-index: 9999;
       font-family: system-ui, sans-serif;
       padding: 1.25rem;
-      backdrop-filter: blur(4px);
     }
-    #turnstile-overlay h2 { margin: 0 0 .75rem; font-size: 1.4rem; }
-    #turnstile-overlay.fade-out { opacity: 0; transition: opacity .55s ease; pointer-events: none; }
+
+    #turnstile-overlay h2 {
+      margin: 0 0 .75rem;
+      font-size: 1.4rem;
+    }
+
+    #turnstile-overlay.fade-out {
+      opacity: 0;
+      transition: opacity .55s ease;
+      pointer-events: none;
+    }
+
     #turnstile-overlay button {
       margin-top: 1rem;
       background: #6c3baa;
@@ -144,119 +149,142 @@
       cursor: pointer;
       font-size: .95rem;
     }
+
     #turnstile-overlay button:hover,
-    #turnstile-overlay button:focus { background:#5a2d96; outline:none; }
+    #turnstile-overlay button:focus {
+      background: #5a2d96;
+      outline: none;
+    }
 
-    /* If JS totally blocked, hide overlay (so crawler/UA sees content) */
-    noscript + #turnstile-overlay { display:none !important; }
-
-    /* Reduce chance of overlay content appearing in SERP snippet */
+    noscript+#turnstile-overlay {
+      display: none !important;
+    }
   </style>
 
   <script>
-    (function() {
-      var overlayVisible = true;
+    (function () {
       var dismissed = false;
-
-      function byId(id) { return document.getElementById(id); }
+      var widgetId = null;
+      var renderAttempted = false;
+      var overlay = null;
+      function $(id) { return document.getElementById(id); }
 
       function hideOverlay(reason) {
         if (dismissed) return;
         dismissed = true;
-        var ov = byId('turnstile-overlay');
-        if (!ov) return;
-        ov.setAttribute('data-dismissed-reason', reason || 'none');
-        ov.classList.add('fade-out');
-        setTimeout(function() {
-          if (ov && ov.parentNode) ov.parentNode.removeChild(ov);
+        overlay = overlay || $('turnstile-overlay');
+        if (!overlay) return;
+        overlay.setAttribute('data-dismissed-reason', reason || 'unknown');
+        overlay.classList.add('fade-out');
+        setTimeout(function () {
+          if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
         }, 600);
       }
 
-      // Auto-dismiss for search engine bots (avoid accidental blocking).
+      // Expose skip for button
+      window.skipTurnstile = function () { hideOverlay('user-skip'); };
+
+      // Prevent search bots from seeing it at all
       var ua = (navigator.userAgent || '').toLowerCase();
-      if (ua.includes('googlebot') || ua.includes('bingbot') || ua.includes('duckduckbot') || ua.includes('baiduspider')) {
-        hideOverlay('bot-user-agent');
+      if (/googlebot|bingbot|duckduckbot|baiduspider|yandex|slurp/.test(ua)) {
+        // Defer a tick to ensure DOM exists then hide
+        window.addEventListener('DOMContentLoaded', function () { hideOverlay('bot-ua'); });
       }
 
-      // Safety fallback: never leave user with a blank screen >7s.
-      setTimeout(function() {
-        if (overlayVisible && !dismissed) hideOverlay('fallback-timeout');
-      }, 7000);
+      // Safety: always clear after 10s
+      setTimeout(function () { hideOverlay('safety-timeout'); }, 10000);
 
-      // Expose skip button
-      window.skipTurnstile = function() {
-        hideOverlay('user-skip');
-      };
+      // Guard against duplicate overlays (if HTML somehow duplicated)
+      window.addEventListener('DOMContentLoaded', function () {
+        var overlays = document.querySelectorAll('#turnstile-overlay');
+        if (overlays.length > 1) {
+          for (var i = 1; i < overlays.length; i++) { overlays[i].parentNode.removeChild(overlays[i]); }
+        }
+      });
 
-      // Turnstile onload callback
       window.onloadTurnstileCallback = function () {
+        if (renderAttempted) return; // double-callback guard
+        renderAttempted = true;
+
+        // If Turnstile globally missing, just hide overlay
+        if (typeof turnstile === 'undefined') {
+          hideOverlay('no-turnstile-object');
+          return;
+        }
+
+        var container = $('turnstile-container');
+        if (!container) {
+          hideOverlay('no-container');
+          return;
+        }
+        if (container.getAttribute('data-rendered') === '1') {
+          hideOverlay('already-rendered');
+          return;
+        }
+
+        container.setAttribute('data-rendered', '1');
+
         try {
-          if (typeof turnstile === 'undefined') {
-            hideOverlay('no-turnstile-object');
-            return;
-          }
-          // Render the challenge. If it never calls back (network/adblock) fallback timer still wins.
-            turnstile.render('#turnstile-container', {
-              sitekey: '0x4AAAAAABoU4VHaN7UMuwum',
-              callback: function (token) {
-                if (token) {
-                  var msg = byId('turnstile-message');
-                  if (msg) msg.textContent = 'Verified! Loading site...';
-                  setTimeout(function(){ hideOverlay('verified'); }, 500);
-                } else {
-                  // If no token returned, still remove overlay eventually.
-                  setTimeout(function(){ hideOverlay('empty-token'); }, 1500);
-                }
-              },
-              'error-callback': function() {
-                hideOverlay('turnstile-error');
-              },
-              'timeout-callback': function() {
-                hideOverlay('turnstile-timeout');
+          widgetId = turnstile.render('#turnstile-container', {
+            sitekey: '0x4AAAAAABoU4VHaN7UMuwum',
+            callback: function (token) {
+              if (token) {
+                var msg = $('turnstile-message');
+                if (msg) msg.textContent = 'Verified! Loading site...';
+                setTimeout(function () { hideOverlay('verified'); }, 500);
+              } else {
+                // No token (edge case) still dismiss
+                setTimeout(function () { hideOverlay('empty-token'); }, 1200);
               }
-            });
+            },
+            'error-callback': function () {
+              hideOverlay('render-error');
+            },
+            'timeout-callback': function () {
+              hideOverlay('render-timeout');
+            }
+          });
+
+          // Secondary timeout if callback never fires
+          setTimeout(function () {
+            if (!dismissed) {
+              hideOverlay('post-render-timeout');
+            }
+          }, 8000);
+
         } catch (e) {
-          console.warn('Turnstile initialization failed:', e);
+          console.warn('Turnstile render exception', e);
           hideOverlay('exception');
         }
       };
 
-      // If the Turnstile script itself fails to load (blocked), dismiss anyway.
-      window.addEventListener('error', function(evt) {
-        if (evt.target && evt.target.tagName === 'SCRIPT' && (''+evt.target.src).includes('challenges.cloudflare.com')) {
+      // If script tag itself errors (blocked by extension)
+      window.addEventListener('error', function (evt) {
+        if (evt.target && evt.target.tagName === 'SCRIPT' && ('' + evt.target.src).includes('challenges.cloudflare.com')) {
           hideOverlay('script-load-error');
         }
       }, true);
-
-      // Final hard safety: force hide after DOMContentLoaded + 9s total
-      document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(function() {
-          hideOverlay('post-dom-hard-fallback');
-        }, 9000);
-      });
     })();
   </script>
 
-  <!-- Official Turnstile script -->
+  <!-- Cloudflare Turnstile (single inclusion) -->
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer></script>
 </head>
+
 <body>
 
-  <!-- Non-blocking overlay (data-nosnippet to avoid SERP snippet noise) -->
-  <div id="turnstile-overlay" data-nosnippet aria-label="Verification overlay" role="dialog" aria-live="polite">
+  <!-- Overlay (fixed: button now calls skipTurnstile, not a missing dismissOverlay) -->
+  <div id="turnstile-overlay" role="dialog" aria-live="polite" aria-label="Verification overlay">
     <h2>Rainier's Online Portfolio</h2>
     <div id="turnstile-message">Quick verification (helps reduce abuse)</div>
-    <div id="turnstile-container"></div>
-    <button type="button" style="margin-top:1rem" onclick="dismissOverlay()" aria-label="Skip verification">
-      Skip
-    </button>
+    <div id="turnstile-container" style="margin-top:.75rem;"></div>
+    <button type="button" onclick="skipTurnstile()" aria-label="Skip verification and view site">Skip</button>
   </div>
 
   <div id="page">
     <div class="fh5co-loader"></div>
 
-    <header id="fh5co-header" class="fh5co-cover js-fullheight" role="banner"
-            style="background-image:url(images/cover_bg_3.jpg);" data-stellar-background-ratio="0.5">
+    <header id="fh5co-header" class="fh5co-cover js-fullheight" role="banner" style="background-image:url(images/cover_bg_3.jpg);" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
         <div class="row">
@@ -576,9 +604,9 @@
           <div class="col-md-3 col-sm-6 col-xs-12 text-center">
             <div data-iframe-width="250" data-iframe-height="270" data-share-badge-id="81ecee11-ec71-40db-a40a-1fe1fa679b6e" data-share-badge-host="https://www.credly.com"></div>
           </div>
-            <div class="col-md-3 col-sm-6 col-xs-12 text-center">
-              <div data-iframe-width="250" data-iframe-height="270" data-share-badge-id="0991661f-0e97-44e7-b34f-85cb7ccf249c" data-share-badge-host="https://www.credly.com"></div>
-            </div>
+          <div class="col-md-3 col-sm-6 col-xs-12 text-center">
+            <div data-iframe-width="250" data-iframe-height="270" data-share-badge-id="0991661f-0e97-44e7-b34f-85cb7ccf249c" data-share-badge-host="https://www.credly.com"></div>
+          </div>
           <div class="col-md-3 col-sm-6 col-xs-12 text-center">
             <div class="cert-card">
               <a href="https://learn.microsoft.com/api/credentials/share/en-us/RainiervanNiekerk-2216/23CDA41A406ADE34" target="_blank" rel="noopener">
@@ -677,4 +705,5 @@
     </div>
   </div>
 </body>
+
 </html>
