@@ -1,11 +1,8 @@
 User-agent: *
-Allow: /images
-Allow: /favicon
+# Allow all resources for proper rendering
+Allow: /
+# If you truly need to keep SASS sources hidden (only if deployed), uncomment:
+# Disallow: /sass/
 
-Disallow: /css
-Disallow: /fonts
-Disallow: /js
-Disallow: /sass
-Disallow: /webfonts
-
+# Avoid blocking CSS/JS/Fonts – critical for indexing
 Sitemap: https://cloudkid.link/sitemap.xml
