@@ -1,0 +1,4 @@
+Contact: mailto:rainier@cloudkid.link
+Expires: 2100-12-31T12:00:00Z
+Canonical: https://rainier.cloudkid.link/security.txt
+Preferred-Languages: en-us
